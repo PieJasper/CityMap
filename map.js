@@ -46,6 +46,7 @@ function updateMap() {
 
 function drawMap() {
     clear();
+    texts = [];
 
     cities.forEach(city => {
             let population = city[indices.population];
