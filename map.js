@@ -36,8 +36,6 @@ let cities;
 let data;
 
 function updateMap() {
-    texts = [];
-
     data = data.split("\n");
     data = data.map(item => item.split("\t"));
     cities = data;
