@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Cities Map
+        </title>
+        <meta charset="utf-8">
+        <style>
+            #map.limited {
+                max-width: 75%;
+                max-height: 75%;
+            }
+            #customfilediv {
+                margin-top: 25px;
+            }
+            div {
+                margin: 15px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div>
+            <canvas class="limited" id="map" width="1" height="1"></canvas>
+        </div>
+
+        <div>
+            <div>
+                <input id="adjust" checked type="checkbox" onclick="drawMap()">
+                <label for="adjust">
+                    Adjust dot size (not to scale!)
+                </label>
+            </div>
+
+            <div>
+                <input id="minpopulation" type="number" value="100000" autocomplete="false" onchange="drawMap()">
+                <label for="minpopulation">
+                    Minimum population
+                </label>
+            </div>
+
+            <div>
+                <input id="showtext" type="checkbox" onclick="drawMap()">
+                <label for="showtext">
+                    Show city names (Large cities only)
+                </label>
+            </div>
+
+            <div style="display: none;">
+                <label for="imageselector">
+                    Image
+                </label>
+                <select id="imageselector" onchange="loadImage()">
+                    <option value="equirectangular_with_lines.jpg">Normal</option>
+                    <option value="equirectangular_nasa.png">Satellite</option>
+                </select>
+            </div>
+
+            <div>
+                <input id="limitimage" checked onchange="changeImageLimit(this);" type="checkbox">
+                <label for="limitimage">
+                    Limit image size (Turn off for zooming)
+                </label>
+            </div>
+
+            <div>
+                <button>
+                    Redraw
+                </button>
+            </div>
+        </div>
+
+        <cite>
+            (Normal) Image by Strebe, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>
+        </cite>
+        <br>
+        <cite>
+            Dataset by Geonames.org, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>
+        </cite>
+
+        <div id="customfilediv">
+            <div>
+                <label for="custom">
+                    Custom Dataset
+                </label>
+                <input type="file" id="custom" onchange="loadFile(this.files[0]);">
+            </div>
+        </div>
+    </body>
+
+    <script src="map.js"></script>
+
+    <script defer>
+        fetch("cities").then(res => res.text()).then(res => {data = res; updateMap()}, err => {alert("There was an error loading the data."); console.error(err)});
+        
+        function loadFile(file) {
+            let reader = new FileReader();
+
+            reader.onload = () => {
+                data = reader.result;
+                updateMap();
+            }
+
+            reader.onerror = () => {
+                alert("There was an error loading the custom data");
+            }
+
+            reader.readAsText(file);
+        }
+
+        loadImage();
+    </script>
+</html>
