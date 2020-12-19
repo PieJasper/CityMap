@@ -85,7 +85,7 @@ function drawCity(longitude, latitude, population, name) {
 
     drawCircle(x, y, size);
 
-    if(element("showtext").checked && population > 3500000) {
+    if(element("showtext").checked && population > 10000000) {
         texts.push([name, x, y, size]);
     }
 }
